@@ -1,24 +1,67 @@
-## mysql wrappers for 'co'
+### look first
+```js
+'use strict';
+
+var mysql = require('mysql'),
+  co = require('co'),
+  thunkify = require('thunkify');
+
+var pool = mysql.createPool({
+  user: 'root'
+});
+
+var query = function(sql, values, cb) {
+  if (typeof values === 'function') {
+    cb = values;
+    values = null;
+  }
+  pool.query(sql, values, function(err, rows) {
+    cb(err, rows);
+  });
+};
+
+query = thunkify(query);
+
+co(function * () {
+  var rows = yield query('select 1 AS q');
+  console.log(rows);
+})();
+```
+## yes, you should not use `co-mysql`! >_<
+
+[![NPM](https://nodei.co/npm/co-mysql.png?downloads=true)](https://nodei.co/npm/co-mysql/)
+
+## [node-mysql](https://github.com/felixge/node-mysql) wrapper for [co](https://github.com/visionmedia/co) or [koa](https://github.com/koajs/koa)
 
 ### install
-```zsh
+```bash
 npm install co-mysql
-npm install mysql
 ```
 
 ### how to use
 ```js
-var co    = require('co')
-var mysql = require('co-mysql')
+var co = require('co'),
+  mysql = require('co-mysql');
 
-co(function* () {
-  var connection = mysql.createConnection({ user: 'root', database: 'test', password: '123456'})
-  connection.connect()
-
-  console.log( yield connection.query("select 1+1 as qqq") )
-  console.log( yield connection.query("select 1+2 as qqq") )
-  console.log( yield connection.query("select 1+3 as qqq") )
-
-  connection.end()
-})
+co(function*() {
+  var connection = mysql.createConnection(options);
+  connection.connect();
+  var result = yield connection.query('SELECT 10086 + 10000 AS q');
+  connection.end();
+})();
 ```
+
+### use pool
+```js
+var co = require('co'),
+  mysql = require('co-mysql');
+
+co(function*() {
+  var pool = mysql.createPool(options);
+  var result = yield pool.query('SELECT 1');
+  pool.end();
+})();
+```
+
+### License
+MIT
