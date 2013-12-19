@@ -1,6 +1,6 @@
 var mysql = require('mysql')
 
-function wrap (fn, context) {
+function wrap(fn, context) {
 	return function () {
 		var args = [].slice.call(arguments);
 		return function (done) {
@@ -11,7 +11,7 @@ function wrap (fn, context) {
 }
 
 function wrapConnection(connection) {
-	connection[query] = wrap(connection[query], connection)
+	connection['query'] = wrap(connection['query'], connection)
 	return connection
 }
 
