@@ -1,0 +1,24 @@
+{
+  "name": "co-mysql",
+  "version": "0.0.0",
+  "description": "mysql wrappers for co",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coderhaoxin/co-mysql.git"
+  },
+  "keywords": [
+    "mysql",
+    "co",
+    "yield"
+  ],
+  "author": "haoxin",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/coderhaoxin/co-mysql/issues"
+  },
+  "homepage": "https://github.com/coderhaoxin/co-mysql"
+}
