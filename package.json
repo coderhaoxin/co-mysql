@@ -1,6 +1,6 @@
 {
   "name": "co-mysql",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "mysql wrappers for co",
   "main": "index.js",
   "scripts": {
@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/coderhaoxin/co-mysql/issues"
   },
-  "homepage": "https://github.com/coderhaoxin/co-mysql"
+  "homepage": "https://github.com/coderhaoxin/co-mysql",
+  "dependencies": {
+    "mysql": "~2.0.0-rc2"
+  },
+  "devDependencies": {}
 }
