@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/co-mysql.png?downloads=true)](https://nodei.co/npm/co-mysql/)
+
 ## `node-mysql` wrapper for `co`
 
 ### note
