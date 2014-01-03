@@ -2,19 +2,9 @@
 
 ## `node-mysql` wrapper for `co`
 
-### note
-```bash
-need node.js >= 0.11.4
-
-# run with
-node --harmony
-```
-
 ### install
 ```bash
 npm install co-mysql
-
-npm install mysql
 npm install co
 ```
 
