@@ -1,10 +1,10 @@
 {
   "name": "co-mysql",
-  "version": "0.1.0",
-  "description": "mysql wrappers for co",
+  "version": "0.2.0",
+  "description": "a mysql wrapper for co or koa",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --harmony"
   },
   "repository": {
     "type": "git",
@@ -12,11 +12,13 @@
   },
   "keywords": [
     "mysql",
+    "koa",
     "co",
-    "yield"
+    "yield",
+    "generator"
   ],
   "engines": {
-    "node": "> 0.11.8"
+    "node": "> 0.11.9"
   },
   "author": "haoxin",
   "license": "BSD-2-Clause",
@@ -25,7 +27,13 @@
   },
   "homepage": "https://github.com/coderhaoxin/co-mysql",
   "dependencies": {
-    "mysql": "~2.0.0-rc2"
+    "mysql": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "co": "*",
+    "should": "*"
+  },
+  "directories": {
+    "test": "test"
+  }
 }
