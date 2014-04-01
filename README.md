@@ -9,42 +9,41 @@ npm install co-mysql
 
 ### how to use
 ```js
-var co    = require('co')
-var mysql = require('co-mysql')
+var co = require('co'),
+  mysql = require('co-mysql');
 
-co(function* () {
-	var connection = mysql.createConnection({
-		user: 'root',
-		database: 'test',
-		password: 'your password'
-	})
-
-	connection.connect()
-
-	var result = yield connection.query('SELECT 10086 + 10000 AS q')
-	// ......
-
-	connection.end()
-})()
+co(function*() {
+  var connection = mysql.createConnection(options);
+  connection.connect();
+  var result = yield connection.query('SELECT 10086 + 10000 AS q');
+  connection.end();
+})();
 ```
 
 ### use pool
 ```js
-var co    = require('co')
-var mysql = require('co-mysql')
+var co = require('co'),
+  mysql = require('co-mysql');
 
-co(function* () {
-	var pool = mysql.createPool({
-		user: 'root',
-		database: 'test',
-		password: 'your password'
-	})
-
-	var connection = yield pool.getConnection()
-
-	var result = yield connection.query('SELECT * FROM user')
-	// ......
-
-	connection.release()
-})()
+co(function*() {
+  var pool = mysql.createPool(options);
+  var result = yield pool.query('SELECT 1');
+  pool.end();
+})();
 ```
+
+### use pool - getConnection
+```js
+var co = require('co'),
+  mysql = require('co-mysql');
+
+co(function*() {
+  var pool = mysql.createPool(options);
+  var connection = yield pool.getConnection();
+  var result = yield connection.query('SELECT 1');
+  connection.release();
+})();
+```
+
+### License
+MIT

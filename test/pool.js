@@ -1,21 +1,84 @@
-var mysql  = require('../index')
-var should = require('should')
-var co     = require('co')
+'use strict';
 
-describe('connection', function () {
-	it('show query', function (done) {
-		co(function* () {
-			var pool = mysql.createPool({
-				user: 'root',
-				database: 'test',
-				password: '123456'
-			})
-			var connection = yield pool.getConnection()
+var mysql = require('../index'),
+  should = require('should'),
+  co = require('co'),
+  config = require('./config');
 
-			var result = yield connection.query('SELECT 10086 + 10000 AS q')
-			result[0][0].q.should.equal(20086)
+describe('pool - getConnection', function() {
+  it('should query success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        connection = yield pool.getConnection();
 
-			connection.release()
-		})(done)
-	})
-})
+      var result = yield connection.query('SELECT 10086 + 10000 AS q');
+
+      result[0][0].q.should.equal(20086);
+
+      connection.release();
+    })(done);
+  });
+
+  it('should query with params success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        connection = yield pool.getConnection();
+
+      var result = yield connection.query('SELECT 10086 + ? AS q', 10000);
+
+      result[0][0].q.should.equal(20086);
+
+      connection.release();
+    })(done);
+  });
+
+  it('should query with escape success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        connection = yield pool.getConnection();
+
+      var sql = 'SELECT 10086 + ' + connection.escape(10000) + ' AS q',
+        result = yield connection.query(sql);
+
+      result[0][0].q.should.equal(20086);
+
+      connection.release();
+    })(done);
+  });
+});
+
+describe('pool - query', function() {
+  it('should query success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        result = yield pool.query('SELECT 10086 + 10000 AS q');
+
+      result[0][0].q.should.equal(20086);
+
+      pool.end();
+    })(done);
+  });
+
+  it('should query with params success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        result = yield pool.query('SELECT 10086 + ? AS q', 10000);
+
+      result[0][0].q.should.equal(20086);
+
+      pool.end();
+    })(done);
+  });
+
+  it('should query success', function(done) {
+    co(function * () {
+      var pool = mysql.createPool(config),
+        sql = 'SELECT 10086 + ' + pool.escape(10000) + ' AS q',
+        result = yield pool.query(sql);
+
+      result[0][0].q.should.equal(20086);
+
+      pool.end();
+    })(done);
+  });
+});

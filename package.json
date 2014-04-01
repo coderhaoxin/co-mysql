@@ -1,6 +1,6 @@
 {
   "name": "co-mysql",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "a mysql wrapper for co or koa",
   "main": "index.js",
   "scripts": {
@@ -18,10 +18,10 @@
     "generator"
   ],
   "engines": {
-    "node": "> 0.11.9"
+    "node": "> 0.11.11"
   },
   "author": "haoxin",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/coderhaoxin/co-mysql/issues"
   },

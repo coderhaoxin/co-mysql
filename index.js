@@ -1,38 +1,51 @@
-var mysql = require('mysql')
+'use strict';
+
+var mysql = require('mysql');
 
 function wrap(fn, context) {
-	return function () {
-		var args = [].slice.call(arguments);
-		return function (done) {
-			args.push(done)
-			fn.apply(context, args)
-		}
-	}
+  return function() {
+    var args = [].slice.call(arguments);
+    return function(done) {
+      args.push(done);
+      fn.apply(context, args);
+    };
+  };
 }
 
 function wrapConnection(connection) {
-	connection['query'] = wrap(connection['query'], connection)
-	return connection
+  connection.query = wrap(connection.query, connection);
+  return connection;
 }
 
-module.exports = {
-	createConnection: function (option) {
-		return wrapConnection(mysql.createConnection(option))
-	},
-	createPool: function (option) {
-		var pool = mysql.createPool(option)
-		var getConnection = pool.getConnection
-		var wrappedGetConnection = function () {
-			return function (done) {
-				getConnection.call(pool, function (error, connection) {
-					if (error) {
-						return done(error)
-					}
-					return done(null, wrapConnection(connection))
-				})
-			}
-		}
-		pool.getConnection = wrappedGetConnection
-		return pool
-	}
-}
+exports.createConnection = function(options) {
+  return wrapConnection(mysql.createConnection(options));
+};
+
+exports.createPool = function(options) {
+  var pool = mysql.createPool(options),
+    getConnection = pool.getConnection,
+    wrappedGetConnection = function() {
+      return function(done) {
+        getConnection.call(pool, function(error, connection) {
+          if (error) {
+            return done(error);
+          }
+          return done(null, wrapConnection(connection));
+        });
+      };
+    };
+  // pool.getConnection = wrappedGetConnection;
+  // pool.query = wrap(pool.query, pool);
+  // return pool;
+
+  return {
+    getConnection: wrappedGetConnection,
+    query: wrap(pool.query, pool),
+    end: function() {
+      pool.end();
+    },
+    escape: function() {
+      return pool.escape.apply(pool, arguments);
+    }
+  };
+};
