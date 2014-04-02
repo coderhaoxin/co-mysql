@@ -34,9 +34,6 @@ exports.createPool = function(options) {
         });
       };
     };
-  // pool.getConnection = wrappedGetConnection;
-  // pool.query = wrap(pool.query, pool);
-  // return pool;
 
   return {
     getConnection: wrappedGetConnection,
