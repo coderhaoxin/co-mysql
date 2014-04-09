@@ -22,15 +22,5 @@ exports.createConnection = function(options) {
 };
 
 exports.createPool = function(options) {
-  var pool = mysql.createPool(options);
-
-  return {
-    query: wrap(pool.query, pool),
-    end: function() {
-      pool.end();
-    },
-    escape: function() {
-      return pool.escape.apply(pool, arguments);
-    }
-  };
+  return wrapConnection(mysql.createPool(options));
 };
