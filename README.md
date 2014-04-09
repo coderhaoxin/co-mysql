@@ -32,18 +32,5 @@ co(function*() {
 })();
 ```
 
-### use pool - getConnection
-```js
-var co = require('co'),
-  mysql = require('co-mysql');
-
-co(function*() {
-  var pool = mysql.createPool(options);
-  var connection = yield pool.getConnection();
-  var result = yield connection.query('SELECT 1');
-  connection.release();
-})();
-```
-
 ### License
 MIT

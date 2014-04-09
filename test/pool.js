@@ -5,49 +5,7 @@ var mysql = require('../index'),
   co = require('co'),
   config = require('./config');
 
-describe('pool - getConnection', function() {
-  it('should query success', function(done) {
-    co(function * () {
-      var pool = mysql.createPool(config),
-        connection = yield pool.getConnection();
-
-      var result = yield connection.query('SELECT 10086 + 10000 AS q');
-
-      result[0][0].q.should.equal(20086);
-
-      connection.release();
-    })(done);
-  });
-
-  it('should query with params success', function(done) {
-    co(function * () {
-      var pool = mysql.createPool(config),
-        connection = yield pool.getConnection();
-
-      var result = yield connection.query('SELECT 10086 + ? AS q', 10000);
-
-      result[0][0].q.should.equal(20086);
-
-      connection.release();
-    })(done);
-  });
-
-  it('should query with escape success', function(done) {
-    co(function * () {
-      var pool = mysql.createPool(config),
-        connection = yield pool.getConnection();
-
-      var sql = 'SELECT 10086 + ' + connection.escape(10000) + ' AS q',
-        result = yield connection.query(sql);
-
-      result[0][0].q.should.equal(20086);
-
-      connection.release();
-    })(done);
-  });
-});
-
-describe('pool - query', function() {
+describe('pool', function() {
   it('should query success', function(done) {
     co(function * () {
       var pool = mysql.createPool(config),
@@ -70,7 +28,7 @@ describe('pool - query', function() {
     })(done);
   });
 
-  it('should query success', function(done) {
+  it('should query with escape success', function(done) {
     co(function * () {
       var pool = mysql.createPool(config),
         sql = 'SELECT 10086 + ' + pool.escape(10000) + ' AS q',

@@ -22,21 +22,9 @@ exports.createConnection = function(options) {
 };
 
 exports.createPool = function(options) {
-  var pool = mysql.createPool(options),
-    getConnection = pool.getConnection,
-    wrappedGetConnection = function() {
-      return function(done) {
-        getConnection.call(pool, function(error, connection) {
-          if (error) {
-            return done(error);
-          }
-          return done(null, wrapConnection(connection));
-        });
-      };
-    };
+  var pool = mysql.createPool(options);
 
   return {
-    getConnection: wrappedGetConnection,
     query: wrap(pool.query, pool),
     end: function() {
       pool.end();
