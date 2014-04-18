@@ -1,3 +1,21 @@
+### look first
+```js
+var mysql = require('mysql'),
+  co = require('co'),
+  thunkify = require('thunkify');
+
+var pool = mysql.createPool({
+  user: 'root'
+});
+pool.query = thunkify(pool.query);
+
+co(function * () {
+  var rows = yield pool.query('SELECT 1 + 2 AS q');
+  console.log(rows[0]);
+})();
+```
+## yes, you should not use `co-mysql`! >_<
+
 [![NPM](https://nodei.co/npm/co-mysql.png?downloads=true)](https://nodei.co/npm/co-mysql/)
 
 ## [node-mysql](https://github.com/felixge/node-mysql) wrapper for [co](https://github.com/visionmedia/co) or [koa](https://github.com/koajs/koa)
