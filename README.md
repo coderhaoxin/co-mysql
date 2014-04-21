@@ -1,5 +1,7 @@
 ### look first
 ```js
+'use strict';
+
 var mysql = require('mysql'),
   co = require('co'),
   thunkify = require('thunkify');
@@ -7,11 +9,22 @@ var mysql = require('mysql'),
 var pool = mysql.createPool({
   user: 'root'
 });
-pool.query = thunkify(pool.query);
+
+var query = function(sql, values, cb) {
+  if (typeof values === 'function') {
+    cb = values;
+    values = null;
+  }
+  pool.query(sql, values, function(err, rows) {
+    cb(err, rows);
+  });
+};
+
+query = thunkify(query);
 
 co(function * () {
-  var rows = yield pool.query('SELECT 1 + 2 AS q');
-  console.log(rows[0]);
+  var rows = yield query('select 1 AS q');
+  console.log(rows);
 })();
 ```
 ## yes, you should not use `co-mysql`! >_<
