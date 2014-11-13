@@ -1,24 +1,30 @@
 {
   "name": "co-mysql",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "description": "a mysql wrapper for co or koa",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --harmony"
+    "test": "node_modules/.bin/mocha --harmony -R spec -t 5000 test/*.js",
+    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R dot -t 5000 test/*.js",
+    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 5000 test/*.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/coderhaoxin/co-mysql.git"
   },
   "keywords": [
+    "generator",
+    "promise",
+    "yield",
     "mysql",
     "koa",
-    "co",
-    "yield",
-    "generator"
+    "co"
+  ],
+  "files": [
+    "index.js"
   ],
   "engines": {
-    "node": "> 0.11.11"
+    "node": "> 0.11.13"
   },
   "author": "haoxin",
   "license": "MIT",
@@ -26,12 +32,11 @@
     "url": "https://github.com/coderhaoxin/co-mysql/issues"
   },
   "homepage": "https://github.com/coderhaoxin/co-mysql",
-  "dependencies": {
-    "mysql": "*"
-  },
   "devDependencies": {
     "co": "*",
-    "should": "*"
+    "istanbul-harmony": "*",
+    "mocha": "*",
+    "mysql": "*"
   },
   "directories": {
     "test": "test"
