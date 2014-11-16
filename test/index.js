@@ -26,7 +26,7 @@ describe('## co-mysql', function() {
         equal(rows[0].q, 20086);
 
         connection.end();
-      })(done);
+      }).then(done, done);
     });
 
     it('should query with params success', function(done) {
@@ -39,7 +39,7 @@ describe('## co-mysql', function() {
         equal(rows[0].q, 20086);
 
         connection.end();
-      })(done);
+      }).then(done, done);
     });
 
     it('should query with promise success', function(done) {
@@ -77,7 +77,7 @@ describe('## co-mysql', function() {
         equal(rows[0].q, 20086);
 
         pool.end();
-      })(done);
+      }).then(done, done);
     });
 
     it('should query with params success', function(done) {
@@ -89,7 +89,7 @@ describe('## co-mysql', function() {
         equal(rows[0].q, 20086);
 
         pool.end();
-      })(done);
+      }).then(done, done);
     });
 
     it('should query with promise success', function(done) {
